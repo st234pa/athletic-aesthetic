@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
     char *content;
     long size;
     struct stat *s;
-    stat("story.txt",&s);
+    stat("story.txt", s);
     size = s->st_size;
     int err = read(f,&content,size);
     printf("%s/n", content);
@@ -50,7 +50,7 @@ int main(int argc, char *argv[]) {
     char *content;
     long size;
     struct stat *s;
-    stat("story.txt",&s);
+    stat("story.txt", s);
     size = s->st_size;
     int err = read(f,&content,size);
     printf("%s/n", content);
