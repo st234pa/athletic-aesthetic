@@ -40,7 +40,7 @@ int main(int argc, char *argv[]) {
   else if (strncmp(argv[1], "-v", strlen(argv[1])) == 0) {
     char *content;
     long size;
-    stuct stat *s;
+    struct stat *s;
     stat("story.txt",&s);
     size = s->st_size;
     int err = read(f,&content,size);
@@ -49,7 +49,7 @@ int main(int argc, char *argv[]) {
   else if (strncmp(argv[1], "-r", strlen(argv[1])) == 0) {
     char *content;
     long size;
-    stuct stat *s;
+    struct stat *s;
     stat("story.txt",&s);
     size = s->st_size;
     int err = read(f,&content,size);
