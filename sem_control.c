@@ -32,6 +32,7 @@ int main(int argc, char *argv[]) {
       sc = semctl(semid, 0, SETVAL, su);
       printf("semaphore value set: %d\n", sc);
       f = open("story.txt", O_CREAT | O_TRUNC, 0644);
+      close(f);
     }
     else {
       printf("semaphore already exists");
@@ -40,24 +41,35 @@ int main(int argc, char *argv[]) {
   else if (strncmp(argv[1], "-v", strlen(argv[1])) == 0) {
     char *content;
     long size;
-    struct stat *s;
-    stat("story.txt", s);
-    size = s->st_size;
-    int err = read(f,&content,size);
+    struct stat *fs = (struct stat *) malloc(sizeof(struct stat));
+    f = open("story.txt", O_RDONLY, 0644);
+    stat("story.txt", fs);
+    size = fs->st_size;
+    
+    printf("%d\n", size);
+    int err = read(f,content,size);
+    content[size+1] = 0;
+    
     printf("%s/n", content);
+    free(fs);
+    close(f);
   }
   else if (strncmp(argv[1], "-r", strlen(argv[1])) == 0) {
     char *content;
     long size;
-    struct stat *s;
-    stat("story.txt", s);
-    size = s->st_size;
-    int err = read(f,&content,size);
-    printf("%s/n", content);
-    semid=semget(key, 1, 0);
-    sc = semctl(semid, 0, IPC_RMID);
-    sd = shmget(shm, sizeof(int), 0644);
+    struct stat *fs = (struct stat *) malloc(sizeof(struct stat));
+    f = open("story.txt", O_RDONLY, 0644);
+    stat("story.txt", fs);
+    size = fs->st_size;
     
+    int err = read(f,content,size+1);
+    content[size+1] = 0;
+    printf("%s/n", content);
+    /*semid=semget(key, 1, 0);
+    sc = semctl(semid, 0, IPC_RMID);
+    sd = shmget(shm, sizeof(int), 0644);*/
+    free(fs);
+    close(f);
   }
   return 0;
 }
