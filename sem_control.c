@@ -31,7 +31,7 @@ int main(int argc, char *argv[]) {
       su.val = value;
       sc = semctl(semid, 0, SETVAL, su);
       int sv = semctl(semid,0,GETVAL,0);
-      printf("semaphore value set: %d\n", sv );
+      printf("semaphore value set: %d\n", shm );
       f = open("story.txt", O_CREAT | O_TRUNC, 0644);
       close(f);
     }
@@ -64,7 +64,8 @@ int main(int argc, char *argv[]) {
     printf("%s\n", content);
     semid=semget(key, 1, 0);
     sc = semctl(semid, 0, IPC_RMID,0);
-    sd = shmget(shm, sizeof(int), 0644);
+    sd = shmget(key, sizeof(int), 0666);
+    shmctl(sd,IPC_RMID,0);
     free(fs);
     close(f);
   }
